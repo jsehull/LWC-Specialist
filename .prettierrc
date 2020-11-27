@@ -3,7 +3,7 @@
   "overrides": [
     {
       "files": "**/lwc/**/*.html",
-      "options": { "parser": "lwc" }
+      "options": { "parser": "lwc", "tabWidth": 4 }
     },
     {
       "files": "*.{cmp,page,component}",
