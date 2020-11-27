@@ -6,29 +6,38 @@ public with sharing class BoatDataService {
 
     @AuraEnabled(cacheable=true)
     public static List<Boat__c> getBoats(String boatTypeId) {
+
         // Without an explicit boatTypeId, the full list is desired
         String query = 'SELECT '
-                     + 'Name, Description__c, Geolocation__Latitude__s, '
-                     + 'Geolocation__Longitude__s, Picture__c, Contact__r.Name, '
-                     + 'BoatType__c, BoatType__r.Name, Length__c, Price__c '
-                     + 'FROM Boat__c';
+            + 'Name, Description__c, Geolocation__Latitude__s, '
+            + 'Geolocation__Longitude__s, Picture__c, Contact__r.Name, '
+            + 'BoatType__c, BoatType__r.Name, Length__c, Price__c '
+            + 'FROM Boat__c';
+
         if (String.isNotBlank(boatTypeId)) {
             query += ' WHERE BoatType__c = :boatTypeId';
         }
+
         query += ' WITH SECURITY_ENFORCED ';
+
         return Database.query(query);
     }
 
     @AuraEnabled(cacheable=true)
     public static List<Boat__c> getSimilarBoats(Id boatId, String similarBy) {
         List<Boat__c> similarBoats = new List<Boat__c>();
-        List<Boat__c> parentBoat = [SELECT Id, Length__c, Price__c, BoatType__c, BoatType__r.Name
-                                    FROM Boat__c
-                                    WHERE Id = :boatId
-                                    WITH SECURITY_ENFORCED];
+
+        List<Boat__c> parentBoat = [
+            SELECT Id, Length__c, Price__c, BoatType__c, BoatType__r.Name
+            FROM Boat__c
+            WHERE Id = :boatId
+            WITH SECURITY_ENFORCED
+        ];
+
         if (parentBoat.isEmpty()) {
             return similarBoats;
         }
+
         if (similarBy == LENGTH_TYPE) {
             similarBoats = [
                 SELECT Id, Contact__r.Name, Name, BoatType__c, BoatType__r.Name, Length__c, Picture__c, Price__c, Year_Built__c
@@ -59,6 +68,7 @@ public with sharing class BoatDataService {
                 ORDER BY Price__c, Length__c, Year_Built__c
             ];
         }
+
         return similarBoats;
     }
 
@@ -71,14 +81,8 @@ public with sharing class BoatDataService {
     public static List<BoatReview__c> getAllReviews(Id boatId) {
         return [
             SELECT
-                Id,
-                Name,
-                Comment__c,
-                Rating__c,
-                LastModifiedDate,
-                CreatedDate,
-                CreatedBy.Name,
-                CreatedBy.SmallPhotoUrl,
+                Id, Name, Comment__c, Rating__c, LastModifiedDate,
+                CreatedDate, CreatedBy.Name, CreatedBy.SmallPhotoUrl,
                 CreatedBy.CompanyName
             FROM
                 BoatReview__c
@@ -93,12 +97,16 @@ public with sharing class BoatDataService {
     // Assume this may be an API that return this data, not a SOQL query
     @AuraEnabled(cacheable=true)
     public static String getBoatsByLocation(Decimal latitude, Decimal longitude, String boatTypeId) {
+
         // Without an explicit boatTypeId, the full list is desired
         String query = 'SELECT Name, Geolocation__Latitude__s, Geolocation__Longitude__s FROM Boat__c ';
+
         if (String.isNotBlank(boatTypeId)) {
             query += 'WHERE BoatType__c = :boatTypeId ';
         }
+
         query += ' WITH SECURITY_ENFORCED ORDER BY DISTANCE(Geolocation__c, GEOLOCATION(:latitude, :longitude), \'mi\') LIMIT 10';
+
         return JSON.serialize(Database.query(query));
     }
 
@@ -110,6 +118,7 @@ public with sharing class BoatDataService {
         );
 
         update boatsForUpdate;
+
         return 'Success: Boats updated successfully';
     }
 }

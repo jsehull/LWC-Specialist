@@ -1,25 +1,36 @@
-import { LightningElement } from 'lwc';
+import getBoats from '@salesforce/apex/BoatDataService.getBoats';
+import { api, LightningElement, wire } from 'lwc';
 
 const SUCCESS_TITLE = 'Success';
 const MESSAGE_SHIP_IT = 'Ship it!';
 const SUCCESS_VARIANT = 'success';
 const ERROR_TITLE = 'Error';
 const ERROR_VARIANT = 'error';
+
 export default class BoatSearchResults extends LightningElement {
     selectedBoatId;
     columns = [];
     boatTypeId = '';
-    boats;
+    boats = [];
     isLoading = false;
 
     // wired message context
     messageContext;
+
     // wired getBoats method
-    wiredBoats(result) { }
+    @wire(getBoats, { boatTypeId: '$boatTypeId' })
+    wiredBoats(result) {
+        console.log("🚀 / result", result);
+        this.isLoading = false;
+    }
 
     // public function that updates the existing boatTypeId property
     // uses notifyLoading
-    searchBoats(boatTypeId) { }
+    @api
+    searchBoats(boatTypeId) {
+        this.boatTypeId = boatTypeId;
+        this.isLoading = true;
+    }
 
     // this public function must refresh the boats asynchronously
     // uses notifyLoading

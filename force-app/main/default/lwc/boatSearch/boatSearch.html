@@ -8,7 +8,7 @@
 
                 <p class="slds-var-p-horizontal_small">
                     <!-- boatSearchForm component goes here -->
-                    <c-boat-search-form></c-boat-search-form>
+                    <c-boat-search-form onsearch={searchBoats}></c-boat-search-form>
                 </p>
             </lightning-card>
         </lightning-layout-item>
@@ -22,6 +22,8 @@
 
             <!-- boatSearchResults goes here -->
             <!-- onloading={handleLoading} ondoneloading={handleDoneLoading} -->
+            <c-boat-search-results></c-boat-search-results>
+
         </lightning-layout-item>
     </lightning-layout>
 </template>
