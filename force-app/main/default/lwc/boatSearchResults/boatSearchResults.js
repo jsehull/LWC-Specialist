@@ -1,5 +1,5 @@
 import getBoats from '@salesforce/apex/BoatDataService.getBoats';
-import { api, LightningElement, wire } from 'lwc';
+import { api, LightningElement, track, wire } from 'lwc';
 
 const SUCCESS_TITLE = 'Success';
 const MESSAGE_SHIP_IT = 'Ship it!';
@@ -11,7 +11,7 @@ export default class BoatSearchResults extends LightningElement {
     selectedBoatId;
     columns = [];
     boatTypeId = '';
-    boats = [];
+    @track boats;
     isLoading = false;
 
     // wired message context
@@ -20,16 +20,16 @@ export default class BoatSearchResults extends LightningElement {
     // wired getBoats method
     @wire(getBoats, { boatTypeId: '$boatTypeId' })
     wiredBoats(result) {
-        console.log("🚀 / result", result);
-        this.isLoading = false;
+        this.notifyLoading(false);
+        this.boats = result.data;
     }
 
     // public function that updates the existing boatTypeId property
     // uses notifyLoading
     @api
     searchBoats(boatTypeId) {
+        this.notifyLoading(true);
         this.boatTypeId = boatTypeId;
-        this.isLoading = true;
     }
 
     // this public function must refresh the boats asynchronously
@@ -58,6 +58,14 @@ export default class BoatSearchResults extends LightningElement {
             .catch(error => { })
             .finally(() => { });
     }
+
     // Check the current value of isLoading before dispatching the doneloading or loading custom event
-    notifyLoading(isLoading) { }
+    notifyLoading(isLoading) {
+        this.isLoading = isLoading;
+        if (isLoading) {
+            this.dispatchEvent(new CustomEvent('loading'));
+        } else {
+            this.dispatchEvent(new CustomEvent('doneloading'));
+        }
+    }
 }

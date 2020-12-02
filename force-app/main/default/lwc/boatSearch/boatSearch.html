@@ -17,12 +17,13 @@
             size="12"
             class="slds-p-top_small slds-is-relative"
         >
-            <!-- Spinner goes here -->
-            <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+            <template if:true={isLoading}>
+                <!-- Spinner goes here -->
+                <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+            </template>
 
             <!-- boatSearchResults goes here -->
-            <!-- onloading={handleLoading} ondoneloading={handleDoneLoading} -->
-            <c-boat-search-results></c-boat-search-results>
+            <c-boat-search-results onloading={handleLoading} ondoneloading={handleDoneLoading}></c-boat-search-results>
 
         </lightning-layout-item>
     </lightning-layout>

@@ -1,31 +1,34 @@
 <template>
     <lightning-tabset variant="scoped">
         <lightning-tab label="Gallery">
-            <div class="slds-scrollable_y">
-                <!-- layout horizontally aligned to the center  -->
-                <!-- layout allowing multiple rows -->
-                <lightning-layout horizontal-align="center" multiple-rows>
-                    <!-- template looping through each boat -->
-                    <template
-                        if:true={boats}
-                        for:each={boats}
-                        for:item="boat"
-                        for:index="idx"
-                    >
-                        <!-- lightning-layout-item for each boat -->
-                        <lightning-layout-item
-                            key={boat.Id}
-                            padding="around-small"
-                            size="12"
-                            small-device-size="6"
-                            medium-device-size="4"
-                            large-device-size="3"
+            <template if:true={boats}>
+                <div class="slds-scrollable_y">
+                    <!-- layout horizontally aligned to the center  -->
+                    <!-- layout allowing multiple rows -->
+                    <lightning-layout horizontal-align="center" multiple-rows>
+                        <!-- template looping through each boat -->
+                        <template
+                            if:true={boats}
+                            for:each={boats}
+                            for:item="boat"
+                            for:index="idx"
                         >
-                            <!-- Each BoatTile goes here -->
-                        </lightning-layout-item>
-                    </template>
-                </lightning-layout>
-            </div>
+                            <!-- lightning-layout-item for each boat -->
+                            <lightning-layout-item
+                                key={boat.Id}
+                                padding="around-small"
+                                size="12"
+                                small-device-size="6"
+                                medium-device-size="4"
+                                large-device-size="3"
+                            >
+                                <!-- Each BoatTile goes here -->
+                                <c-boat-tile boat={boat}></c-boat-tile>
+                            </lightning-layout-item>
+                        </template>
+                    </lightning-layout>
+                </div>
+            </template>
         </lightning-tab>
 
         <lightning-tab label="Boat Editor">
