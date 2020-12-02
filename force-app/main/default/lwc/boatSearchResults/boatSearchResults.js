@@ -1,5 +1,8 @@
-import getBoats from '@salesforce/apex/BoatDataService.getBoats';
 import { api, LightningElement, track, wire } from 'lwc';
+
+import getBoats from '@salesforce/apex/BoatDataService.getBoats';
+import { publish, MessageContext } from 'lightning/messageService';
+import boatMessageChannel from '@salesforce/messageChannel/BoatMessageChannel__c';
 
 const SUCCESS_TITLE = 'Success';
 const MESSAGE_SHIP_IT = 'Ship it!';
@@ -15,6 +18,7 @@ export default class BoatSearchResults extends LightningElement {
     isLoading = false;
 
     // wired message context
+    @wire(MessageContext)
     messageContext;
 
     // wired getBoats method
@@ -37,11 +41,19 @@ export default class BoatSearchResults extends LightningElement {
     refresh() { }
 
     // this function must update selectedBoatId and call sendMessageService
-    updateSelectedTile() { }
+    updateSelectedTile(event) {
+        console.log("🚀 / updateSelectedTile ", event.detail.boatId);
+        const selectedBoatId = event.detail.boatId;
+        this.selectedBoatId = selectedBoatId;
+        this.sendMessageService(selectedBoatId);
+    }
 
     // Publishes the selected boat Id on the BoatMC.
     sendMessageService(boatId) {
         // explicitly pass boatId to the parameter recordId
+        const payload = { recordId: boatId };
+
+        publish(this.messageContext, boatMessageChannel, payload);
     }
 
     // The handleSave method must save the changes in the Boat Editor
