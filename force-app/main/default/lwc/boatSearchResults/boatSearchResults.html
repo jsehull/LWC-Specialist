@@ -1,7 +1,7 @@
 <template>
-    <lightning-tabset variant="scoped">
-        <lightning-tab label="Gallery">
-            <template if:true={boats}>
+    <template if:true={boats}>
+        <lightning-tabset variant="scoped">
+            <lightning-tab label="Gallery">
                 <div class="slds-scrollable_y">
                     <!-- layout horizontally aligned to the center  -->
                     <!-- layout allowing multiple rows -->
@@ -28,15 +28,15 @@
                         </template>
                     </lightning-layout>
                 </div>
-            </template>
-        </lightning-tab>
+            </lightning-tab>
 
-        <lightning-tab label="Boat Editor">
-            <!-- Scrollable div and lightning datatable go here -->
-        </lightning-tab>
+            <lightning-tab label="Boat Editor">
+                <!-- Scrollable div and lightning datatable go here -->
+            </lightning-tab>
 
-        <lightning-tab label="Boats Near Me">
-            <!-- boatsNearMe component goes here -->
-        </lightning-tab>
-    </lightning-tabset>
+            <lightning-tab label="Boats Near Me">
+                <!-- boatsNearMe component goes here -->
+            </lightning-tab>
+        </lightning-tabset>
+    </template>
 </template>
