@@ -2,6 +2,7 @@ import { api, LightningElement, track, wire } from 'lwc';
 
 import getBoats from '@salesforce/apex/BoatDataService.getBoats';
 import updateBoatList from '@salesforce/apex/BoatDataService.updateBoatList';
+import { getRecordNotifyChange } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { publish, MessageContext } from 'lightning/messageService';
 import boatMessageChannel from '@salesforce/messageChannel/BoatMessageChannel__c';
@@ -88,6 +89,10 @@ export default class BoatSearchResults extends LightningElement {
         const updatedFields = event.detail.draftValues;
         console.log("🚀 / updatedFields", updatedFields)
 
+        // Prepare the record IDs for getRecordNotifyChange()
+        const notifyChangeIds = updatedFields.map(row => { return { "recordId": row.Id } });
+        console.log("🚀 / notifyChangeIds", notifyChangeIds)
+
         // Update the records via Apex
         updateBoatList({ data: updatedFields })
             .then(() => {
@@ -96,6 +101,9 @@ export default class BoatSearchResults extends LightningElement {
                     message: MESSAGE_SHIP_IT,
                     variant: SUCCESS_VARIANT
                 }));
+
+                // Refresh LDS cache and wires
+                getRecordNotifyChange(notifyChangeIds);
 
                 this.draftValues = [];
                 return this.refresh();
