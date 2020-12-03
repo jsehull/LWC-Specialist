@@ -23,7 +23,11 @@
                                 large-device-size="3"
                             >
                                 <!-- Each BoatTile goes here -->
-                                <c-boat-tile boat={boat} selected-boat-id={selectedBoatId} onboatselect={updateSelectedTile}>></c-boat-tile>
+                                <c-boat-tile
+                                    boat={boat}
+                                    selected-boat-id={selectedBoatId}
+                                    onboatselect={updateSelectedTile}
+                                ></c-boat-tile>
                             </lightning-layout-item>
                         </template>
                     </lightning-layout>
@@ -32,6 +36,14 @@
 
             <lightning-tab label="Boat Editor">
                 <!-- Scrollable div and lightning datatable go here -->
+                <lightning-datatable
+                    key-field="Id"
+                    data={boats}
+                    columns={columns}
+                    draft-values={draftValues}
+                    onsave={handleSave}
+                >
+                </lightning-datatable>
             </lightning-tab>
 
             <lightning-tab label="Boats Near Me">
