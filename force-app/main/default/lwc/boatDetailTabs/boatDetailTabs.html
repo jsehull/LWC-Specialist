@@ -34,7 +34,14 @@
                 <!-- instantiate the component boatReviews, passing the currently selected boat Id -->
                 <c-boat-reviews boat-id={boatId}></c-boat-reviews>
             </lightning-tab>
-            <lightning-tab label={label.labelAddReview} value="three"> Three Content ! </lightning-tab>
+            <lightning-tab label={label.labelAddReview} value="three">
+                <!-- instantiate the boatAddReviewForm component, passing the currently selected boat Id,
+                    using the function handleReviewCreated() to handle the custom event named createreview -->
+                <c-boat-add-review-form
+                    boat-id={boatId}
+                    oncreatereview={handleReviewCreated}
+                ></c-boat-add-review-form>
+            </lightning-tab>
         </lightning-tabset>
     </template>
 </template>
