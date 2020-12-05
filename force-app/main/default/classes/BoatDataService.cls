@@ -69,6 +69,7 @@ public with sharing class BoatDataService {
             ];
         }
 
+        System.debug(JSON.serializePretty(similarBoats));
         return similarBoats;
     }
 
