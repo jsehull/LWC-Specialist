@@ -1,4 +1,4 @@
-import { LightningElement } from 'lwc';
+import { api, LightningElement } from 'lwc';
 
 //import fivestar static resource, call it fivestar
 import fivestar from '@salesforce/resourceUrl/fivestar';
@@ -13,8 +13,8 @@ const READ_ONLY_CLASS = 'readonly c-rating';
 
 export default class FiveStarRating extends LightningElement {
 	//initialize public readOnly and value properties
-	readOnly;
-	value;
+	@api readOnly;
+	@api value;
 
 	editedValue;
 	isRendered;
