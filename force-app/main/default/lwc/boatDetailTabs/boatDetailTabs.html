@@ -11,7 +11,12 @@
         <!-- lightning card for the content when wiredRecord has data goes here  -->
         <lightning-tabset variant="scoped" active-tab-value="one">
             <lightning-tab label={label.labelDetails} value="one">
-                <lightning-card title="Hello" icon-name="standard:account">
+                <lightning-card title={boatName} icon-name={detailsTabIconName}>
+                    <lightning-button
+                        label={label.labelFullDetails}
+                        slot="actions"
+                        onclick={navigateToRecordViewPage}
+                    ></lightning-button>
                     Hello
                 </lightning-card>
             </lightning-tab>
