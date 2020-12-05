@@ -1,9 +1,9 @@
-import { LightningElement } from 'lwc';
+import { api, LightningElement } from 'lwc';
 
 // imports
 export default class BoatReviews extends LightningElement {
     // Private
-    boatId;
+    @api boatId;
     error;
     boatReviews;
     isLoading;

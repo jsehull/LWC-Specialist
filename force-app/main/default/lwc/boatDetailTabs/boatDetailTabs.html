@@ -2,9 +2,7 @@
     <template if:false={wiredRecord.data}>
         <!-- lightning card for the label when wiredRecord has no data goes here  -->
         <lightning-card>
-            <span class="slds-align_absolute-center no-boat-height">
-                {label.labelPleaseSelectABoat}
-            </span>
+            <span class="slds-align_absolute-center no-boat-height"> {label.labelPleaseSelectABoat} </span>
         </lightning-card>
     </template>
     <template if:true={wiredRecord.data}>
@@ -30,15 +28,13 @@
                             <lightning-output-field field-name="Description__c"></lightning-output-field>
                         </div>
                     </lightning-record-view-form>
-
                 </lightning-card>
             </lightning-tab>
-            <lightning-tab label={label.labelReviews} value="two">
-                Two Content !
+            <lightning-tab label={label.labelReviews} value="reviews">
+                <!-- instantiate the component boatReviews, passing the currently selected boat Id -->
+                <c-boat-reviews boat-id={boatId}></c-boat-reviews>
             </lightning-tab>
-            <lightning-tab label={label.labelAddReview} value="three">
-                Three Content !
-            </lightning-tab>
+            <lightning-tab label={label.labelAddReview} value="three"> Three Content ! </lightning-tab>
         </lightning-tabset>
     </template>
 </template>
