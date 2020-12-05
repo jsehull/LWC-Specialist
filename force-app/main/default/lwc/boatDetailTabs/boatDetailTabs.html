@@ -1,9 +1,26 @@
 <template>
-    <p>Boat Detail Tabs</p>
     <template if:false={wiredRecord.data}>
         <!-- lightning card for the label when wiredRecord has no data goes here  -->
+        <lightning-card>
+            <span class="slds-align_absolute-center no-boat-height">
+                {label.labelPleaseSelectABoat}
+            </span>
+        </lightning-card>
     </template>
     <template if:true={wiredRecord.data}>
         <!-- lightning card for the content when wiredRecord has data goes here  -->
+        <lightning-tabset variant="scoped" active-tab-value="one">
+            <lightning-tab label={label.labelDetails} value="one">
+                <lightning-card title="Hello" icon-name="standard:account">
+                    Hello
+                </lightning-card>
+            </lightning-tab>
+            <lightning-tab label={label.labelReviews} value="two">
+                Two Content !
+            </lightning-tab>
+            <lightning-tab label={label.labelAddReview} value="three">
+                Three Content !
+            </lightning-tab>
+        </lightning-tabset>
     </template>
 </template>
